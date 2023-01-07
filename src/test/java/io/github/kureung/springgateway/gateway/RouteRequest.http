@@ -1,0 +1,15 @@
+POST http://localhost:7777/routers
+Content-Type: application/json
+
+{
+  "routers" : [
+    {
+      "weight" : 7,
+      "uri" : "http://localhost:8070"
+    },
+    {
+      "weight" : 3,
+      "uri" : "http://localhost:8090"
+    }
+  ]
+}
