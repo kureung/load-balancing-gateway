@@ -1,50 +1,59 @@
 package io.github.kureung.springgateway.route.web;
 
+import static java.util.stream.Collectors.toList;
+
 import io.github.kureung.springgateway.route.model.CustomRouter;
 import io.github.kureung.springgateway.route.model.CustomRouterGroup;
-
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 class RouterGroupRequest {
     private List<RouterRequest> routers;
+
+    public RouterGroupRequest() {
+    }
+
+    @Override
+    public String toString() {
+        return "RouterGroupRequest{" +
+                "routers=" + this.routers +
+                '}';
+    }
 
     private static class RouterRequest {
         private int weight;
         private String url;
 
         public int getWeight() {
-            return weight;
+            return this.weight;
         }
 
         public String getUrl() {
-            return url;
+            return this.url;
         }
 
         private CustomRouter router() {
-            return new CustomRouter(weight, url);
+            return new CustomRouter(this.weight, this.url);
         }
 
         @Override
         public String toString() {
             return "RouteRequest{" +
-                    "weight=" + weight +
-                    ", uri='" + url + '\'' +
+                    "weight=" + this.weight +
+                    ", url='" + this.url + '\'' +
                     '}';
         }
     }
 
     public List<RouterRequest> getRouters() {
-        return routers;
+        return this.routers;
     }
 
-    public CustomRouterGroup routeGroup() {
-        return new CustomRouterGroup(routes());
+    public CustomRouterGroup routerGroup() {
+        return new CustomRouterGroup(this.routers());
     }
 
-    private List<CustomRouter> routes() {
-        return routers.stream()
+    private List<CustomRouter> routers() {
+        return this.routers.stream()
                 .map(RouterRequest::router)
                 .collect(toList());
     }

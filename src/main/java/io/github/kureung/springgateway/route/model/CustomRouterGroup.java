@@ -13,12 +13,12 @@ public class CustomRouterGroup {
     }
 
     private CustomRouterGroup(final Name name, final List<CustomRouter> routes) {
-        verifyRoutes(routes);
+        CustomRouterGroup.verifyRoutes(routes);
         this.name = name;
         this.routes = routes;
     }
 
-    private void verifyRoutes(final List<CustomRouter> routes) {
+    private static void verifyRoutes(final List<CustomRouter> routes) {
         if (routes == null) {
             throw new IllegalArgumentException("routes must not be null");
         }
@@ -33,18 +33,18 @@ public class CustomRouterGroup {
     }
 
     public String name() {
-        return name.value();
+        return this.name.value();
     }
 
-    public List<CustomRouter> routes() {
-        return new ArrayList<>(routes);
+    public List<CustomRouter> routers() {
+        return new ArrayList<>(this.routes);
     }
 
     @Override
     public String toString() {
         return "RouteGroup{" +
-                "name=" + name.value() +
-                ", routes=" + routes +
+                "name=" + this.name.value() +
+                ", routes=" + this.routes +
                 '}';
     }
 }

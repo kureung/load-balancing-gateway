@@ -23,20 +23,21 @@ public final class CustomRouteLocator implements RouteLocator {
 
     @Override
     public Flux<Route> getRoutes() {
-        final CustomRouterGroup customRouterGroup = routeGroup();
+        final CustomRouterGroup customRouterGroup = this.routeGroup();
         log.info("{}", customRouterGroup);
-        final RouteLocatorBuilder.Builder routesBuilder = locatorBuilder.routes();
-        return Flux.fromIterable(customRouterGroup.routes())
-                .map(route -> routesBuilder.route(predicateSpec -> loadBalancingCondition(customRouterGroup.name(), route, predicateSpec)))
+        final RouteLocatorBuilder.Builder routesBuilder = this.locatorBuilder.routes();
+        return Flux.fromIterable(customRouterGroup.routers())
+                .map(route -> routesBuilder.route(predicateSpec -> CustomRouteLocator.loadBalancingCondition(customRouterGroup.name(), route, predicateSpec)))
                 .collectList()
                 .flatMapMany(builders -> routesBuilder.build().getRoutes());
     }
 
     private CustomRouterGroup routeGroup() {
-        return groupRepository.routeGroup();
+        return this.groupRepository.routeGroup();
     }
 
-    private Buildable<Route> loadBalancingCondition(final String groupName, final CustomRouter apiRoute, final PredicateSpec predicateSpec) {
+    private static Buildable<Route> loadBalancingCondition(final String groupName, final CustomRouter apiRoute,
+            final PredicateSpec predicateSpec) {
         return predicateSpec.path("/**")
                 .and()
                 .weight(groupName, apiRoute.weight())

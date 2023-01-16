@@ -7,25 +7,25 @@ public final class Url {
 
     public Url(final String value) {
         if (value == null || value.isEmpty()) {
-            throw new IllegalArgumentException("url_cannot_be_blank_or_empty");
+            throw new IllegalArgumentException("url cannot be blank or empty");
         }
         this.value = value;
     }
 
     public String value() {
-        return value;
+        return this.value;
     }
 
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || this.getClass() != o.getClass()) return false;
         final Url url = (Url) o;
-        return Objects.equals(value, url.value);
+        return Objects.equals(this.value, url.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(this.value);
     }
 }
